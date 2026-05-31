@@ -1,0 +1,58 @@
+name: Build apps
+
+# Builds self-contained, double-clickable apps for macOS, Windows and Linux and
+# attaches them to a GitHub Release. Triggers on a version tag (e.g. v1.0.0), or
+# run manually from the Actions tab.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: macos-latest,   name: macos   }
+          - { os: windows-latest, name: windows }
+          - { os: ubuntu-latest,  name: linux   }
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21 (with jpackage)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Build app
+        shell: bash
+        run: bash packaging/build-app.sh   # uses the vendored libs in packaging/lib
+
+      - name: Package
+        shell: bash
+        run: |
+          cd dist
+          if [ "${{ matrix.name }}" = "macos" ]; then
+            ditto -c -k --keepParent "Rubik's Cube.app" "../RubiksCube-macos.zip"
+          else
+            7z a -r "../RubiksCube-${{ matrix.name }}.zip" "Rubik's Cube" >/dev/null
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RubiksCube-${{ matrix.name }}
+          path: RubiksCube-${{ matrix.name }}.zip
+
+      - name: Attach to release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Rubik's Cube ${{ github.ref_name }}
+          body_path: RELEASE_NOTES.md
+          files: RubiksCube-${{ matrix.name }}.zip

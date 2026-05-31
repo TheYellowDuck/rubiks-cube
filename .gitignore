@@ -1,0 +1,15 @@
+# Processing build/export output
+/bin/
+/out/
+application.*/
+*.class
+
+# jpackage build output (release artifacts are uploaded to the GitHub Release)
+/build/
+/dist/
+
+# OS / editor cruft
+.DS_Store
+
+# local prefs written next to the app at runtime
+prefs.json
