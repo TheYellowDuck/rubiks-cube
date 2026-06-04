@@ -10,10 +10,12 @@ An interactive 3D Rubik's Cube built from scratch in **Processing 4 (Java / P3D 
 ## Demo
 
 <p align="center">
-  <video src="https://github.com/TheYellowDuck/rubiks-cube/raw/main/assets/demo.mp4" controls muted width="720"></video>
+  <a href="https://youtu.be/P54xNsHOW80">
+    <img src="assets/thumbnail.jpg" width="720" alt="Watch the Rubik's Cube demo on YouTube">
+  </a>
 </p>
 
-▶ **[Watch the demo](assets/demo.mp4)** (if the player above doesn't load inline).
+▶ **[Watch the demo on YouTube](https://youtu.be/P54xNsHOW80)**
 
 ## Highlights
 
