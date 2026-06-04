@@ -10,12 +10,12 @@ An interactive 3D Rubik's Cube built from scratch in **Processing 4 (Java / P3D 
 ## Demo
 
 <p align="center">
-  <a href="https://youtu.be/P54xNsHOW80">
+  <a href="https://youtu.be/p14M3V3xtMY">
     <img src="assets/thumbnail.jpg" width="720" alt="Watch the Rubik's Cube demo on YouTube">
   </a>
 </p>
 
-▶ **[Watch the demo on YouTube](https://youtu.be/P54xNsHOW80)**
+▶ **[Watch the demo on YouTube](https://youtu.be/p14M3V3xtMY)**
 
 ## Highlights
 
