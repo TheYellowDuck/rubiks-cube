@@ -4,8 +4,7 @@
 
 # Rubik's Cube — Interactive 3D Simulator & CFOP Auto-Solver
 
-An interactive 3D Rubik's Cube built from scratch in **Processing 4 (Java / P3D OpenGL)**, with a
-**from-scratch CFOP solver** that solves any scramble and animates the solution move-by-move.
+An interactive 3D Rubik's Cube built from scratch in **Processing 4 (Java / P3D OpenGL)**, with a **from-scratch CFOP solver** that solves any scramble and animates the solution move-by-move. The solver runs on a background thread, was property-tested against thousands of random scrambles, and uses no external cube or solving libraries.
 
 ## Demo
 
@@ -17,21 +16,15 @@ An interactive 3D Rubik's Cube built from scratch in **Processing 4 (Java / P3D 
 
 ▶ **[Watch the demo on YouTube](https://youtu.be/p14M3V3xtMY)**
 
-## Highlights
+## Features
 
-- **Real-time 3D cube** — 27 chamfered cubies with per-face lighting, beveled edges, and
-  z-fight-free stickers, rendered in P3D (OpenGL).
-- **Natural controls** — grab any face and drag to turn it (ray-cast picking + axis-locked
-  slice dragging), spin the whole cube to look around, or drive it from the keyboard.
-- **From-scratch CFOP auto-solver** — Cross → F2L → OLL → PLL, no external libraries.
-  Solve the whole thing automatically, or **step through it one move at a time**.
-- **Runs off the UI thread** — the solver computes on a background worker so the interface
-  never freezes; the solution is streamed into the animation queue when ready.
-- **Polished UX** — scramble, timer with persisted best time, move counter, undo (animated,
-  reaches back through scrambles and solves), light/dark themes that follow the OS, and
-  cross-platform fonts/labels (macOS · Windows · Linux).
+- **Real-time 3D cube** — 27 chamfered cubies with per-face lighting, beveled edges, and z-fight-free stickers, rendered in P3D (OpenGL).
+- **Natural controls** — grab any face and drag to turn it (ray-cast picking + axis-locked slice dragging), spin the whole cube to look around, or drive it from the keyboard.
+- **From-scratch CFOP auto-solver** — Cross → F2L → OLL → PLL, no external libraries. Solve the whole thing automatically, or **step through it one move at a time**.
+- **Runs off the UI thread** — the solver computes on a background worker so the interface never freezes; the solution is streamed into the animation queue when ready.
+- **Polished UX** — scramble, timer with persisted best time, move counter, undo (animated, reaches back through scrambles and solves), light/dark themes that follow the OS, and cross-platform fonts/labels (macOS · Windows · Linux).
 
-## The solver (what I'm most proud of)
+## How the Solver Works
 
 A complete **CFOP** ("Fridrich method") pipeline implemented over the cube's sticker model:
 
@@ -41,31 +34,11 @@ A complete **CFOP** ("Fridrich method") pipeline implemented over the cube's sti
 | **F2L** | Each corner–edge pair is inserted with **cross-preserving triggers** (`R U R'`, etc.); the search is keyed on just the cross + solved pairs, keeping it bounded and correct. |
 | **OLL / PLL** | Two small **last-layer searches** over complete algorithm sets (edge/corner orientation; 3-cycles + adjacent swap + AUF), bounded by the last-layer coset. |
 
-The whole pipeline was **validated against thousands of random scrambles** (a standalone Java
-port of the cube + solver) before shipping — **0 failures over 1500 scrambles**. A hidden
-`t` key re-runs that self-check live from the console.
+The whole pipeline was **validated against thousands of random scrambles** (a standalone Java port of the cube + solver) before shipping — **0 failures over 1500 scrambles**. A hidden `t` key re-runs that self-check live from the console.
 
 ### A debugging story worth telling
 
-While building the solver I discovered the **cube model itself was subtly wrong**: it passed
-casual play but failed the classic identity `(R U R' U')⁶ = solved`. Property-style testing
-(checking cubie groupings across thousands of scrambles, then move-order identities) isolated a
-**corner-cycling bug** that was invisible to edges and centers — a reversed strip in two of the
-turn functions. Fixing it made the model a mathematically valid cube and the solver correct.
-
-## Controls
-
-| Action | Input |
-| --- | --- |
-| Turn a face | Drag a face on the cube, or keys `u d r l f b` (hold **Shift** for prime / counter-clockwise) |
-| Spin the view | **⌘**/**Ctrl** + drag, right-drag, or arrow keys |
-| Scramble | **Space** / Scramble button |
-| Auto-solve (toggles to Pause) | **s** / Solve button |
-| Solve one move at a time | **n** / Step button |
-| Undo (animated) | Undo button |
-| Reset | **Enter** / Reset button |
-| Toggle theme | Light/Dark button (remembered) |
-| Solver self-check (console) | **t** |
+While building the solver I discovered the **cube model itself was subtly wrong**: it passed casual play but failed the classic identity `(R U R' U')⁶ = solved`. Property-style testing (checking cubie groupings across thousands of scrambles, then move-order identities) isolated a **corner-cycling bug** that was invisible to edges and centers — a reversed strip in two of the turn functions. Fixing it made the model a mathematically valid cube and the solver correct.
 
 ## Architecture
 
@@ -86,30 +59,54 @@ The sketch is split into focused tabs:
 | `Cubelet.pde` | Per-cubie grid position + orientation |
 | `Debug.pde` | Background solver self-check |
 
-## Running it
+## Skills Demonstrated
 
-**Download:** grab the build for your OS from the [latest release](../../releases/latest), unzip, and
-double-click. The apps bundle their own Java runtime — nothing else to install.
-*(macOS: if Gatekeeper blocks it the first time, right-click → Open.)*
+- 3D graphics programming — real-time P3D / OpenGL rendering of 27 chamfered cubies with lighting and bevels
+- Ray-cast picking — face selection via ray–geometry intersection
+- Interaction design — axis-locked slice dragging for natural click-and-drag face turns
+- Algorithm design — a from-scratch CFOP (Cross → F2L → OLL → PLL) solver with no libraries
+- Breadth-first search — optimal cross over a reduced ~190k state space
+- State-space reduction — cross-preserving F2L search and bounded last-layer coset searches
+- Multithreading & concurrency — solver runs on a background worker; the UI thread never blocks
+- Producer–consumer queue — one animation queue fed by scramble, solve, step, and undo
+- Property-based testing — validated over 1500+ random scrambles with a standalone Java port (0 failures)
+- Debugging with invariants — isolated a corner-cycling bug via move-order identities (`(R U R' U')⁶`)
+- Object-oriented design — focused modules for cube, solver, renderer, input, and raycasting
+- Data modelling — six `char[3][3]` faces and the 18 canonical face turns
+- Persistence — best time and theme saved as JSON in the home directory
+- Cross-platform packaging — `jpackage` produces self-contained apps for macOS, Windows, and Linux
+- CI/CD automation — GitHub Actions builds and attaches all three OS apps on `v*` tags
+- UX engineering — animated undo through scrambles/solves, OS-following dark mode, live timer
+
+## Tech Stack
+
+- Java
+- Processing 4 (`PApplet`, P3D renderer)
+- OpenGL via JOGL / GlueGen (the P3D backend)
+- Python (a small build-time sketch preprocessor)
+- `jpackage` (self-contained native app bundles)
+- GitHub Actions (multi-OS release CI)
+- JSON persistence (`~/.rubikscube_prefs.json`)
+
+## Demo & Links
+
+- 📺 [Watch the demo on YouTube](https://youtu.be/p14M3V3xtMY)
+- ⬇️ [Download the latest release](https://github.com/TheYellowDuck/rubiks-cube/releases/latest)
+
+## Getting Started
+
+**Download:** grab the build for your OS from the [latest release](../../releases/latest), unzip, and double-click. The apps bundle their own Java runtime — nothing else to install. *(macOS: if Gatekeeper blocks it the first time, right-click → Open.)*
 
 **From source:** open the folder in [Processing 4](https://processing.org/) and press Run (P3D / OpenGL).
 
-**Build the app yourself:** a tiny preprocessor lets the sketch build with plain `javac` + `jpackage`
-— no Processing IDE needed (Processing's core libraries are vendored in `packaging/lib/`):
+**Build the app yourself:** a tiny preprocessor lets the sketch build with plain `javac` + `jpackage` — no Processing IDE needed (Processing's core libraries are vendored in `packaging/lib/`):
 
 ```bash
 bash packaging/build-app.sh      # → dist/ : a double-clickable app for your current OS
 ```
 
-The [`Build apps`](.github/workflows/release.yml) GitHub Actions workflow runs this on macOS, Windows
-and Linux runners and attaches all three apps to the release when you push a `v*` tag.
-
-## Tech
-
-Processing 4 · Java · P3D (OpenGL via JOGL) · no third-party solver/cube libraries.
+The [`Build apps`](.github/workflows/release.yml) GitHub Actions workflow runs this on macOS, Windows and Linux runners and attaches all three apps to the release when you push a `v*` tag.
 
 ---
 
-*Built as a personal project to explore 3D graphics, interaction design, and the algorithmics of
-the CFOP method — including writing (and property-testing) a correct cube model and solver from
-first principles.*
+*Built as a personal project to explore 3D graphics, interaction design, and the algorithmics of the CFOP method — including writing (and property-testing) a correct cube model and solver from first principles.*
