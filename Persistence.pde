@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+// Required Notice: Copyright (c) 2026 George Zhang — https://github.com/TheYellowDuck
+
 // ── Persistence ───────────────────────────────────────────────────────────────
 // Best solve time and the theme choice are stored in a small JSON file kept WITH
 // the app (next to its jar — i.e. inside the .app / app folder), so nothing is

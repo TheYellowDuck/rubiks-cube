@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+// Required Notice: Copyright (c) 2026 George Zhang — https://github.com/TheYellowDuck
+
 // ── Move pipeline ─────────────────────────────────────────────────────────────
 // Every cube turn flows through here: one animated move at a time, fed by a single
 // queue (moveQueue) shared by scramble / auto-solve / step-solve / undo.  Each

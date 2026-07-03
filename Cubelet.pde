@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+// Required Notice: Copyright (c) 2026 George Zhang — https://github.com/TheYellowDuck
+
 // ── Cubelet class ─────────────────────────────────────────────────────────
 class Cubelet {
   int gx, gy, gz;          // grid position: each component ∈ {-1, 0, 1}

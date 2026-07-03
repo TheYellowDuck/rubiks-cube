@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+# Required Notice: Copyright (c) 2026 George Zhang — https://github.com/TheYellowDuck
+
 # Build a self-contained, double-clickable app for the CURRENT OS using jpackage.
 # Requires: a JDK with jpackage (17+), python3, and Processing's core libraries.
 #

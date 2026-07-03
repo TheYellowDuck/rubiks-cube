@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+# Required Notice: Copyright (c) 2026 George Zhang — https://github.com/TheYellowDuck
+
 """Turn the Processing sketch (*.pde tabs) into a single compilable PApplet
 subclass — a minimal stand-in for Processing's preprocessor so the sketch can be
 built with plain javac + jpackage (no Processing IDE needed).

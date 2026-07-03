@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+// Required Notice: Copyright (c) 2026 George Zhang — https://github.com/TheYellowDuck
+
 // ── 3D cube geometry ─────────────────────────────────────────────────────────
 
 // Chamfered cube: 6 flat faces + 12 bevel edges + 8 corner triangles, all with normals.

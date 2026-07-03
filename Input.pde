@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+// Required Notice: Copyright (c) 2026 George Zhang — https://github.com/TheYellowDuck
+
 void spinView(float rx, float ry) {
   PMatrix3D d = new PMatrix3D();
   if (ry != 0) d.rotateY(ry);

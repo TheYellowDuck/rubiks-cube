@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+// Required Notice: Copyright (c) 2026 George Zhang — https://github.com/TheYellowDuck
+
 // ── Solver self-check ─────────────────────────────────────────────────────────
 // Press 't' to run a batch of random scrambles through solveCube() on a worker
 // thread and print the result to the console.  A regression guard for the cube
